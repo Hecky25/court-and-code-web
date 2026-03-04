@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Court & Code — Where Racquet Sports Meet the Web</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --green-dark:  #0e3b26;
+      --green-mid:   #174d33;
+      --green-light: #A8D44A;
+      --white:       #FFFFFF;
+      --off-white:   #F4F7F2;
+      --gray:        #8A9E92;
+      --dark:        #0a1f14;
+      --radius:      10px;
+      --nav-h:       68px;
+    }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body { font-family: 'Barlow', sans-serif; color: var(--green-dark); background: var(--white); line-height: 1.65; }
+    h1, h2, h3, h4 { font-family: 'Barlow Condensed', sans-serif; line-height: 1.15; letter-spacing: 0.01em; }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    section[id] { scroll-margin-top: var(--nav-h); }
+
+    /* ===== UTILITY ===== */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 28px; }
+    .section-label {
+      font-family: 'Barlow', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--green-light);
+      margin-bottom: 12px;
+      display: block;
+    }
+    .btn {
+      display: inline-block;
+      padding: 13px 30px;
+      border-radius: var(--radius);
+      font-family: 'Barlow', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      transition: all 0.22s ease;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-primary {
+      background: var(--green-light);
+      color: var(--green-dark);
+    }
+    .btn-primary:hover { background: #bde055; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(168,212,74,0.35); }
+    .btn-outline {
+      background: transparent;
+      color: var(--white);
+      border: 2px solid rgba(255,255,255,0.4);
+    }
+    .btn-outline:hover { border-color: var(--white); background: rgba(255,255,255,0.08); transform: translateY(-2px); }
+    .btn-outline-dark {
+      background: transparent;
+      color: var(--green-dark);
+      border: 2px solid var(--green-dark);
+    }
+    .btn-outline-dark:hover { background: var(--green-dark); color: var(--white); transform: translateY(-2px); }
+
+    /* ===== NAV ===== */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 500;
+      height: var(--nav-h);
+      background: var(--green-dark);
+      display: flex;
+      align-items: center;
+    }
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 28px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .nav-brand img { height: 38px; width: auto; object-fit: contain; }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.75);
+      letter-spacing: 0.04em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--white); border-radius: 2px; transition: all 0.25s; }
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      background: var(--green-dark);
+      padding: 16px 28px 24px;
+      position: sticky;
+      top: var(--nav-h);
+      z-index: 499;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      padding: 12px 0;
+      font-size: 1rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .mobile-menu a:last-child { border-bottom: none; }
+
+    /* ===== HERO ===== */
+    #hero {
+      background: var(--green-dark);
+      padding: 88px 28px 96px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 60% 0%, rgba(168,212,74,0.12) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero-logo {
+      width: 100%;
+      max-width: 900px;
+      height: auto;
+      margin: 0 auto 56px;
+      object-fit: contain;
+    }
+    #hero h1 {
+      font-size: clamp(2.8rem, 6vw, 4.4rem);
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 20px;
+      max-width: 780px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    #hero h1 span { color: var(--green-light); }
+    .hero-sub {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.6);
+      max-width: 540px;
+      margin: 0 auto 40px;
+      line-height: 1.7;
+    }
+    .hero-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 56px;
+      margin-top: 64px;
+      flex-wrap: wrap;
+    }
+    .stat-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2.4rem;
+      font-weight: 800;
+      color: var(--green-light);
+      letter-spacing: 0.02em;
+    }
+    .stat-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-top: 2px;
+    }
+
+    /* ===== ABOUT ===== */
+    #about { background: var(--off-white); padding: 88px 28px; }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 72px;
+      align-items: center;
+    }
+    #about h2 { font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 800; color: var(--green-dark); margin-bottom: 20px; }
+    #about p { color: #4A5E52; font-size: 1rem; line-height: 1.75; margin-bottom: 16px; }
+    #about p:last-of-type { margin-bottom: 28px; }
+    .about-visual {
+      background: var(--green-dark);
+      border-radius: 16px;
+      padding: 48px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .about-feature {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .about-feature-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      background: rgba(168,212,74,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      color: var(--green-light);
+      font-size: 1rem;
+    }
+    .about-feature h4 { font-family: 'Barlow', sans-serif; font-size: 0.95rem; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+    .about-feature p, #about .about-feature p { font-size: 0.88rem; color: rgba(255,255,255,0.72); margin: 0; line-height: 1.6; }
+
+    /* ===== WORK ===== */
+    #work { background: var(--white); padding: 88px 28px; }
+    #work h2 { font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 800; color: var(--green-dark); margin-bottom: 12px; }
+    #work .section-sub { color: var(--gray); margin-bottom: 48px; font-size: 1rem; }
+    .work-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+    .work-tile {
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid #E2EAE5;
+      display: block;
+      text-decoration: none;
+      transition: transform 0.22s, box-shadow 0.22s;
+    }
+    .work-tile:hover { transform: translateY(-5px); box-shadow: 0 12px 36px rgba(27,61,47,0.12); }
+    .work-tile-visual {
+      background: #FFFFFF;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 280px;
+      border-bottom: 1px solid #E2EAE5;
+      overflow: hidden;
+    }
+    .work-tile-visual img { width: 100%; height: 100%; object-fit: contain; }
+    .work-tile-info {
+      padding: 20px 24px;
+      background: var(--off-white);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .work-tile-tag {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--green-light);
+      background: var(--green-dark);
+      padding: 3px 10px;
+      border-radius: 100px;
+      margin-bottom: 5px;
+      display: inline-block;
+    }
+    .work-tile-info h3 { font-family: 'Barlow', sans-serif; font-size: 1rem; font-weight: 700; color: var(--green-dark); }
+    .work-tile-cta { font-size: 0.85rem; font-weight: 700; color: var(--green-dark); white-space: nowrap; opacity: 0.6; }
+    .work-tile:hover .work-tile-cta { opacity: 1; }
+
+    /* ===== PROCESS ===== */
+    #process { background: var(--green-dark); padding: 88px 28px; }
+    #process .section-label { color: var(--green-light); }
+    #process h2 { font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 800; color: var(--white); margin-bottom: 12px; }
+    #process .section-sub { color: rgba(255,255,255,0.6); margin-bottom: 56px; font-size: 1rem; }
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+    .process-step {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 32px 28px;
+    }
+    .process-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2.6rem;
+      font-weight: 800;
+      color: var(--green-light);
+      opacity: 0.4;
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+    .process-step h4 { font-family: 'Barlow', sans-serif; font-size: 1rem; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+    .process-step p { font-size: 0.88rem; color: rgba(255,255,255,0.6); line-height: 1.65; }
+
+    /* ===== PRICING ===== */
+    #pricing { background: var(--off-white); padding: 88px 28px; }
+    #pricing h2 { font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 800; color: var(--green-dark); margin-bottom: 12px; }
+    #pricing .section-sub { color: var(--gray); margin-bottom: 48px; font-size: 1rem; }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+    .pricing-card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 36px 32px;
+      border: 2px solid #E2EAE5;
+      position: relative;
+    }
+    .pricing-card.featured {
+      border-color: var(--green-dark);
+      box-shadow: 0 8px 32px rgba(27,61,47,0.12);
+    }
+    .pricing-badge {
+      position: absolute;
+      top: -13px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--green-dark);
+      color: var(--green-light);
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 100px;
+      white-space: nowrap;
+    }
+    .pricing-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--green-dark);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .pricing-price {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2.6rem;
+      font-weight: 800;
+      color: var(--green-dark);
+      line-height: 1;
+      margin-bottom: 2px;
+    }
+    .pricing-price span { font-size: 1rem; font-weight: 600; opacity: 0.5; }
+    .pricing-price-sub {
+      font-size: 0.82rem;
+      color: var(--gray);
+      margin-bottom: 14px;
+      font-weight: 500;
+    }
+    .pricing-divider {
+      border: none;
+      border-top: 1px solid #E2EAE5;
+      margin: 18px 0;
+    }
+    .pricing-section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin: 16px 0 8px;
+    }
+    .pricing-desc { font-size: 0.88rem; color: var(--gray); margin-bottom: 28px; line-height: 1.6; }
+    .pricing-features { list-style: none; margin-bottom: 32px; display: flex; flex-direction: column; gap: 10px; }
+    .pricing-features li {
+      font-size: 0.9rem;
+      color: #4A5E52;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .pricing-features li::before {
+      content: '✓';
+      font-weight: 800;
+      color: var(--green-dark);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .pricing-note { font-size: 0.78rem; color: var(--gray); text-align: center; margin-top: 24px; }
+
+    /* ===== CONTACT ===== */
+    #contact { background: var(--white); padding: 88px 28px; }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: start; }
+    #contact h2 { font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 800; color: var(--green-dark); margin-bottom: 16px; }
+    #contact > .container > .contact-grid > div:first-child > p { color: #4A5E52; font-size: 1rem; line-height: 1.75; margin-bottom: 28px; }
+    .contact-detail {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .contact-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--green-dark);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--green-light);
+      flex-shrink: 0;
+      font-family: 'Barlow Condensed', sans-serif;
+    }
+    .contact-detail span { font-size: 0.93rem; color: #4A5E52; }
+    .contact-form-card {
+      background: var(--off-white);
+      border-radius: 16px;
+      padding: 40px 36px;
+      border: 1px solid #E2EAE5;
+    }
+    .form-group { margin-bottom: 18px; }
+    .form-group label { display: block; font-size: 0.82rem; font-weight: 700; color: var(--green-dark); letter-spacing: 0.04em; margin-bottom: 6px; }
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid #D0DDD5;
+      border-radius: 8px;
+      font-family: 'Barlow', sans-serif;
+      font-size: 0.93rem;
+      color: var(--green-dark);
+      background: var(--white);
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--green-dark); }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .btn-submit {
+      width: 100%;
+      background: var(--green-dark);
+      color: var(--white);
+      padding: 14px;
+      border-radius: var(--radius);
+      font-family: 'Barlow', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 0.04em;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-submit:hover { background: var(--green-mid); transform: translateY(-2px); }
+    .confirm-msg { display: none; margin-top: 14px; text-align: center; font-weight: 600; color: var(--green-dark); font-size: 0.93rem; }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--dark);
+      padding: 48px 28px 32px;
+    }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.6fr 1fr 1fr;
+      gap: 48px;
+      padding-bottom: 36px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .footer-brand img { height: 36px; width: auto; margin-bottom: 14px; object-fit: contain; }
+    .footer-brand p { font-size: 0.88rem; color: rgba(255,255,255,0.6); line-height: 1.65; max-width: 280px; }
+    .footer-col h4 { font-family: 'Barlow Condensed', sans-serif; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-bottom: 16px; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul a { font-size: 0.88rem; color: rgba(255,255,255,0.75); transition: color 0.2s; }
+    .footer-col ul a:hover { color: var(--white); }
+    .footer-bottom {
+      max-width: 1100px;
+      margin: 24px auto 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .footer-bottom p { font-size: 0.8rem; color: rgba(255,255,255,0.6); }
+    .powered-by {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--white);
+    }
+    .powered-by img {
+      height: 22px;
+      width: auto;
+      object-fit: contain;
+      filter: invert(1) sepia(1) saturate(5) hue-rotate(175deg) brightness(1.2);
+    }
+    .powered-by strong { color: #22D3EE; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 960px) {
+      .about-grid { grid-template-columns: 1fr; gap: 40px; }
+      .process-grid { grid-template-columns: 1fr 1fr; }
+      .pricing-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
+      .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+      .footer-brand { grid-column: 1 / -1; }
+    }
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .work-grid { grid-template-columns: 1fr; }
+      .process-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .footer-inner { grid-template-columns: 1fr; gap: 32px; }
+      .hero-stats { gap: 32px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-brand" href="#hero">
+      <img src="logo-icon.png" alt="Court & Code" />
+    </a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#work">Our Work</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="btn btn-primary nav-cta" style="font-size:0.88rem; padding:9px 20px;">Get Started</a>
+    <button class="hamburger" aria-expanded="false" aria-controls="mobile-menu" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#about">About</a>
+  <a href="#work">Our Work</a>
+  <a href="#process">Process</a>
+  <a href="#pricing">Pricing</a>
+  <a href="#contact">Contact</a>
+</div>
+
+<!-- ===== HERO ===== -->
+<section id="hero">
+  <div class="container">
+    <img src="logo.png" alt="Court & Code" class="hero-logo" />
+    <h1>Websites built for<br /><span>racquet sport clubs</span><br />that mean business.</h1>
+    <p class="hero-sub">Pickleball is our specialty — but we build for every racquet sport. Purpose-built for your community, not adapted from a generic template.</p>
+    <div class="hero-btns">
+      <a href="#work" class="btn btn-primary">See Our Work</a>
+      <a href="#contact" class="btn btn-outline">Get a Quote</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">5 Days</div>
+        <div class="stat-label">Avg. Turnaround</div>
+      </div>
+      <div>
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Niche Focused</div>
+      </div>
+      <div>
+        <div class="stat-num">$0</div>
+        <div class="stat-label">Hosting Overhead</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ABOUT ===== -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div>
+        <span class="section-label" style="color:var(--green-dark); opacity:0.6;">What We Do</span>
+        <h2>Built for clubs.<br />Not for everyone.</h2>
+        <p>Generic web agencies build generic websites. Court & Code goes deep into racquet sports — pickleball is our home court, but we build for tennis clubs, paddle clubs, and any racquet sport community.</p>
+        <p>We know the culture, the terminology, the features your members actually need. Every site is purpose-made for your club, not a template designed for a dentist's office.</p>
+        <a href="#contact" class="btn btn-outline-dark">Start Your Project</a>
+      </div>
+      <div class="about-visual">
+        <div class="about-feature">
+          <div class="about-feature-icon">01</div>
+          <div>
+            <h4>Court Reserve Integration</h4>
+            <p>We embed real-time court booking directly into your site so members can reserve courts without leaving the page.</p>
+          </div>
+        </div>
+        <div class="about-feature">
+          <div class="about-feature-icon">02</div>
+          <div>
+            <h4>Events & Tournaments</h4>
+            <p>Upcoming events, tournament brackets, clinic schedules — all organized and easy to update.</p>
+          </div>
+        </div>
+        <div class="about-feature">
+          <div class="about-feature-icon">03</div>
+          <div>
+            <h4>Instructor & Lesson Booking</h4>
+            <p>Showcase your pros, display availability, and let members book private or group lessons online.</p>
+          </div>
+        </div>
+        <div class="about-feature">
+          <div class="about-feature-icon">04</div>
+          <div>
+            <h4>Ongoing Retainer Support</h4>
+            <p>Monthly updates, new photos, event changes — handled fast. Your site stays fresh without the hassle.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== OUR WORK ===== -->
+<section id="work">
+  <div class="container">
+    <span class="section-label">Our Work</span>
+    <h2>Real sites. Real clubs.</h2>
+    <p class="section-sub">Click to explore live demos built for pickleball communities.</p>
+    <div class="work-grid">
+
+      <a href="https://idyllic-puppy-714a03.netlify.app" target="_blank" rel="noopener noreferrer" class="work-tile">
+        <div class="work-tile-visual">
+          <img src="maplecrest-logo.png" alt="Maplecrest Pickleball" />
+        </div>
+        <div class="work-tile-info">
+          <div>
+            <span class="work-tile-tag">Pickleball</span>
+            <h3>Maplecrest Pickleball</h3>
+          </div>
+          <span class="work-tile-cta">View Demo →</span>
+        </div>
+      </a>
+
+      <a href="https://lakesideraquet.netlify.app" target="_blank" rel="noopener noreferrer" class="work-tile">
+        <div class="work-tile-visual">
+          <img src="lakeside-logo.png" alt="Lakeside Racquet Club" />
+        </div>
+        <div class="work-tile-info">
+          <div>
+            <span class="work-tile-tag">Pickleball</span>
+            <h3>Lakeside Racquet Club</h3>
+          </div>
+          <span class="work-tile-cta">View Demo →</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROCESS ===== -->
+<section id="process">
+  <div class="container">
+    <span class="section-label">How It Works</span>
+    <h2>From first contact to live site in 5 days.</h2>
+    <p class="section-sub">A tight, focused process that gets your club online fast — no endless back-and-forth.</p>
+    <div class="process-grid">
+      <div class="process-step">
+        <div class="process-num">01</div>
+        <h4>Submit Your Info</h4>
+        <p>Fill out our intake form with your club name, logo, and what features you need.</p>
+      </div>
+      <div class="process-step">
+        <div class="process-num">02</div>
+        <h4>We Build It</h4>
+        <p>Your site is designed and built within 5 days using our proven racquet sports framework.</p>
+      </div>
+      <div class="process-step">
+        <div class="process-num">03</div>
+        <h4>Review & Refine</h4>
+        <p>You get a live preview link. Request changes and we finalize until you love it.</p>
+      </div>
+      <div class="process-step">
+        <div class="process-num">04</div>
+        <h4>Go Live</h4>
+        <p>We connect your domain and launch. Ongoing updates handled through your retainer.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRICING ===== -->
+<section id="pricing">
+  <div class="container">
+    <span class="section-label" style="color:var(--green-dark); opacity:0.6;">Pricing</span>
+    <h2>Simple, transparent pricing.</h2>
+    <p class="section-sub">All packages include a 12-month service agreement and unlimited revisions during development. We work with you until the site is exactly right before launch.</p>
+    <div class="pricing-grid">
+
+      <!-- STARTER -->
+      <div class="pricing-card">
+        <div class="pricing-name">Starter</div>
+        <p class="pricing-desc">Best for small or newly formed racquet communities establishing their online presence.</p>
+        <div class="pricing-price">$1,200 <span>one-time</span></div>
+        <div class="pricing-price-sub">No monthly retainer</div>
+        <hr class="pricing-divider" />
+        <div class="pricing-section-label">Includes</div>
+        <ul class="pricing-features">
+          <li>Up to 4 website pages</li>
+          <li>Custom homepage design</li>
+          <li>Mobile-responsive layout</li>
+          <li>Dedicated Slack channel for all communication</li>
+          <li>Basic SEO structure</li>
+          <li>Unlimited revisions during development</li>
+        </ul>
+        <div class="pricing-section-label">Website Updates</div>
+        <p style="font-size:0.88rem; color:#4A5E52; margin-bottom:24px;">$75 per request — text edits, photos, announcements, schedule updates, and more.</p>
+        <a href="#contact" class="btn btn-outline-dark" style="width:100%; text-align:center; display:block;">Get Started</a>
+      </div>
+
+      <!-- CLUB -->
+      <div class="pricing-card featured">
+        <div class="pricing-badge">Most Popular</div>
+        <div class="pricing-name">Club</div>
+        <p class="pricing-desc">Best for active pickleball and racquet clubs running events, leagues, and lessons.</p>
+        <div class="pricing-price">$600 <span>one-time</span></div>
+        <div class="pricing-price-sub" style="color:var(--green-dark); font-weight:700;">+ $175 / month</div>
+        <hr class="pricing-divider" />
+        <div class="pricing-section-label">Includes Everything in Starter, Plus</div>
+        <ul class="pricing-features">
+          <li>Up to 8 website pages</li>
+          <li>Court reservation system embed</li>
+          <li>Events &amp; tournaments page</li>
+          <li>Lessons &amp; clinics page</li>
+          <li>Instructor profiles</li>
+          <li>Sponsors page</li>
+        </ul>
+        <div class="pricing-section-label">Monthly Management</div>
+        <ul class="pricing-features" style="margin-bottom:24px;">
+          <li>Website hosting &amp; security updates</li>
+          <li>Automated backups</li>
+          <li>Up to 6 updates per month</li>
+          <li>Event &amp; tournament postings</li>
+        </ul>
+        <p style="font-size:0.82rem; color:var(--gray); margin-bottom:24px;">Additional updates beyond monthly allowance: $50 each.</p>
+        <a href="#contact" class="btn btn-primary" style="width:100%; text-align:center; display:block;">Get Started</a>
+      </div>
+
+      <!-- PRO -->
+      <div class="pricing-card">
+        <div class="pricing-name">Pro</div>
+        <p class="pricing-desc">Best for large facilities, country clubs, and tournament organizations needing frequent updates.</p>
+        <div class="pricing-price" style="color:var(--green-dark);">Free <span>setup</span></div>
+        <div class="pricing-price-sub" style="color:var(--green-dark); font-weight:700;">$375 / month</div>
+        <hr class="pricing-divider" />
+        <div class="pricing-section-label">Includes Everything in Club, Plus</div>
+        <ul class="pricing-features">
+          <li>Up to 15 website pages</li>
+          <li>Unlimited website updates</li>
+          <li>Priority support</li>
+          <li>Advanced integrations</li>
+          <li>Junior programs page</li>
+          <li>League standings</li>
+          <li>Board of Directors page</li>
+          <li>Donations &amp; fundraising</li>
+          <li>News &amp; announcements</li>
+        </ul>
+        <a href="#contact" class="btn btn-outline-dark" style="width:100%; text-align:center; display:block; margin-top:24px;">Get Started</a>
+      </div>
+
+    </div>
+
+    <!-- ALL PACKAGES -->
+    <div style="margin-top:48px; background:var(--green-dark); border-radius:14px; padding:36px 40px;">
+      <div class="pricing-section-label" style="color:var(--green-light); margin-top:0;">Included With All Packages</div>
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:4px;">
+        <div style="display:flex; gap:10px; align-items:flex-start;">
+          <span style="color:var(--green-light); font-weight:800; flex-shrink:0;">✓</span>
+          <span style="color:rgba(255,255,255,0.72); font-size:0.9rem;">Racquet-sports focused design</span>
+        </div>
+        <div style="display:flex; gap:10px; align-items:flex-start;">
+          <span style="color:var(--green-light); font-weight:800; flex-shrink:0;">✓</span>
+          <span style="color:rgba(255,255,255,0.72); font-size:0.9rem;">Fast mobile performance</span>
+        </div>
+        <div style="display:flex; gap:10px; align-items:flex-start;">
+          <span style="color:var(--green-light); font-weight:800; flex-shrink:0;">✓</span>
+          <span style="color:rgba(255,255,255,0.72); font-size:0.9rem;">Professional modern layout</span>
+        </div>
+        <div style="display:flex; gap:10px; align-items:flex-start;">
+          <span style="color:var(--green-light); font-weight:800; flex-shrink:0;">✓</span>
+          <span style="color:rgba(255,255,255,0.72); font-size:0.9rem;">Dedicated Slack channel for streamlined communication (iOS &amp; Android)</span>
+        </div>
+        <div style="display:flex; gap:10px; align-items:flex-start;">
+          <span style="color:var(--green-light); font-weight:800; flex-shrink:0;">✓</span>
+          <span style="color:rgba(255,255,255,0.72); font-size:0.9rem;">Technical support</span>
+        </div>
+        <div style="display:flex; gap:10px; align-items:flex-start;">
+          <span style="color:var(--green-light); font-weight:800; flex-shrink:0;">✓</span>
+          <span style="color:rgba(255,255,255,0.72); font-size:0.9rem;">Unlimited revisions during development</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-grid">
+      <div>
+        <span class="section-label" style="color:var(--green-dark); opacity:0.6;">Get In Touch</span>
+        <h2>Ready to get your club online?</h2>
+        <p>Fill out the form and we'll get back to you within 24 hours. Whether you're ready to start or just exploring, we're happy to talk.</p>
+        <div class="contact-detail">
+          <div class="contact-icon">@</div>
+          <span>courtcode@outlook.com</span>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-icon">24h</div>
+          <span>Response within 24 hours</span>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-icon">5D</div>
+          <span>Live in 5 days, guaranteed</span>
+        </div>
+      </div>
+      <div class="contact-form-card">
+        <form id="contact-form" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="con-first">First Name *</label>
+              <input type="text" id="con-first" name="firstName" required placeholder="Jane" />
+            </div>
+            <div class="form-group">
+              <label for="con-last">Last Name *</label>
+              <input type="text" id="con-last" name="lastName" required placeholder="Smith" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="con-email">Email *</label>
+            <input type="email" id="con-email" name="email" required placeholder="jane@yourclub.com" />
+          </div>
+          <div class="form-group">
+            <label for="con-club">Club Name</label>
+            <input type="text" id="con-club" name="club" placeholder="Riverside Pickleball Club" />
+          </div>
+          <div class="form-group">
+            <label for="con-package">Package Interest</label>
+            <select id="con-package" name="package">
+              <option value="">Select a package...</option>
+              <option>Starter</option>
+              <option>Club</option>
+              <option>Pro</option>
+              <option>Not sure yet</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="con-message">Tell Us About Your Club *</label>
+            <textarea id="con-message" name="message" required placeholder="What does your club need? Any specific features in mind?"></textarea>
+          </div>
+          <button type="submit" class="btn-submit">Send Message</button>
+          <div class="confirm-msg" id="contact-confirm">Thanks! We'll be in touch within 24 hours.</div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="logo-icon.png" alt="Court & Code" style="filter: brightness(0) invert(1); opacity:0.8;" />
+      <p>Purpose-built websites for pickleball clubs and racquet sport communities.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#work">Our Work</a></li>
+        <li><a href="#process">Process</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="mailto:courtcode@outlook.com">courtcode@outlook.com</a></li>
+        <li><a href="#contact">Get a Quote</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 Court &amp; Code. All rights reserved.</p>
+    <span class="powered-by">
+      Powered by
+      <img src="hextix-logo.png" alt="Hextix" />
+      <strong>Hextix</strong>
+    </span>
+  </div>
+</footer>
+
+<!-- ===== JS ===== -->
+<script>
+(function () {
+  const hamburger = document.querySelector('.hamburger');
+  const mobileMenu = document.getElementById('mobile-menu');
+  hamburger.addEventListener('click', function () {
+    const exp = hamburger.getAttribute('aria-expanded') === 'true';
+    hamburger.setAttribute('aria-expanded', String(!exp));
+    mobileMenu.classList.toggle('open', !exp);
+  });
+  mobileMenu.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', function () {
+      hamburger.setAttribute('aria-expanded', 'false');
+      mobileMenu.classList.remove('open');
+    });
+  });
+
+  const form = document.getElementById('contact-form');
+  const confirm = document.getElementById('contact-confirm');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    let valid = true;
+    form.querySelectorAll('[required]').forEach(function (f) {
+      if (!f.value.trim()) {
+        valid = false;
+        f.style.borderColor = '#ef4444';
+        f.addEventListener('input', function () { f.style.borderColor = ''; }, { once: true });
+      }
+    });
+    if (!valid) return;
+    const data = new FormData(form);
+    const lines = [];
+    data.forEach(function (v, k) { lines.push(k + ': ' + v); });
+    const subject = encodeURIComponent('Court & Code — New Project Inquiry');
+    const body = encodeURIComponent(lines.join('\n'));
+    window.location.href = 'mailto:courtcode@outlook.com?subject=' + subject + '&body=' + body;
+    confirm.style.display = 'block';
+    form.querySelectorAll('input, textarea, select').forEach(function (el) { el.value = ''; });
+    setTimeout(function () { confirm.style.display = 'none'; }, 8000);
+  });
+})();
+</script>
+
+</body>
+</html>
