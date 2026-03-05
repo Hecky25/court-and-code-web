@@ -961,7 +961,8 @@
         </div>
       </div>
       <div class="contact-form-card">
-        <form id="contact-form" novalidate>
+        <form id="contact-form" action="https://formspree.io/f/xojkajaj" method="POST" novalidate>
+          <input type="hidden" name="_subject" value="New Project Inquiry — Court & Code" />
           <div class="form-row">
             <div class="form-group">
               <label for="con-first">First Name *</label>
@@ -1067,15 +1068,21 @@
       }
     });
     if (!valid) return;
-    const data = new FormData(form);
-    const lines = [];
-    data.forEach(function (v, k) { lines.push(k + ': ' + v); });
-    const subject = encodeURIComponent('Court & Code — New Project Inquiry');
-    const body = encodeURIComponent(lines.join('\n'));
-    window.location.href = 'mailto:courtcode@outlook.com?subject=' + subject + '&body=' + body;
-    confirm.style.display = 'block';
-    form.querySelectorAll('input, textarea, select').forEach(function (el) { el.value = ''; });
-    setTimeout(function () { confirm.style.display = 'none'; }, 8000);
+    fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    }).then(function(res) {
+      if (res.ok) {
+        confirm.style.display = 'block';
+        form.querySelectorAll('input, textarea, select').forEach(function (el) { el.value = ''; });
+        setTimeout(function () { confirm.style.display = 'none'; }, 8000);
+      } else {
+        alert('Something went wrong. Please email us at courtcode@outlook.com.');
+      }
+    }).catch(function() {
+      alert('Something went wrong. Please email us at courtcode@outlook.com.');
+    });
   });
 })();
 </script>
