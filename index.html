@@ -961,8 +961,8 @@
         </div>
       </div>
       <div class="contact-form-card">
-        <form id="contact-form" action="https://formspree.io/f/xwvrevob" method="POST" novalidate>
-          <input type="hidden" name="_subject" value="New Project Inquiry — Court & Code" />
+        <form id="contact-form" name="contact" method="POST" data-netlify="true" novalidate>
+          <input type="hidden" name="form-name" value="contact" />
           <div class="form-row">
             <div class="form-group">
               <label for="con-first">First Name *</label>
@@ -1068,22 +1068,21 @@
       }
     });
     if (!valid) return;
-    fetch(form.action, {
+    var data = new FormData(form);
+    fetch('/', {
       method: 'POST',
-      body: new FormData(form),
-      headers: { 'Accept': 'application/json' }
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(data).toString()
     }).then(function(res) {
-      return res.json().then(function(data) {
-        if (res.ok) {
-          confirm.style.display = 'block';
-          form.querySelectorAll('input, textarea, select').forEach(function (el) { el.value = ''; });
-          setTimeout(function () { confirm.style.display = 'none'; }, 8000);
-        } else {
-          alert('Error ' + res.status + ': ' + JSON.stringify(data));
-        }
-      });
-    }).catch(function(err) {
-      alert('Catch error: ' + err);
+      if (res.ok) {
+        confirm.style.display = 'block';
+        form.querySelectorAll('input, textarea, select').forEach(function (el) { el.value = ''; });
+        setTimeout(function () { confirm.style.display = 'none'; }, 8000);
+      } else {
+        alert('Something went wrong. Please email us at courtcode@outlook.com.');
+      }
+    }).catch(function() {
+      alert('Something went wrong. Please email us at courtcode@outlook.com.');
     });
   });
 })();
